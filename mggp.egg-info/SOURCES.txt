@@ -1,0 +1,7 @@
+README.md
+setup.py
+mggp.egg-info/PKG-INFO
+mggp.egg-info/SOURCES.txt
+mggp.egg-info/dependency_links.txt
+mggp.egg-info/requires.txt
+mggp.egg-info/top_level.txt
