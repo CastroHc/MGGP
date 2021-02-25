@@ -23,7 +23,7 @@ pip install mggp
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-# MGGP Toolbox Tutorial
+# Tutorial
 ## _mggpElement Class_
 
 An `mggpElement` object is responsible to carry the attributes and functions used to create and evaluate individuals from a MGGP population. This class is able to build SISO and MISO models. Its default configuration creates an element object capable of building SISO models in which the variables are 'y1', 'u1' and (optional) 'e1'. The number '1' in the variable name indicates that it is a one-step lagged variable (y1 = y[k-1]). Also, the only function present in the primitive set is '_mul_' with arity equals 2, that is, it receives two arguments -- _mul_(x1,x2).
