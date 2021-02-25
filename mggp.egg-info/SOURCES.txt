@@ -1,4 +1,5 @@
 README.md
+mggp.py
 setup.py
 mggp.egg-info/PKG-INFO
 mggp.egg-info/SOURCES.txt

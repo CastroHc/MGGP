@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mggp", # Replace with your own username
-    version="0.0.0",
+    version="0.0.2",
     author="Henrique Castro",
     author_email="henriquec.castro@outlook.com",
     description="Multi Gene Genetic Programming toolbox for System Identification",
@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="",
     packages=[],
+    py_modules=["mggp"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
