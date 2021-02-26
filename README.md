@@ -426,7 +426,7 @@ Consider the system:
 
 where u=WGN(0,1) with an output Gaussian noise with mean of zero and standard deviation of 0.08.
 
-    from SysID.mggp import mggpElement, mggpEvolver
+    from mggp import mggpElement, mggpEvolver
     import numpy as np
     
     # simulate the system
