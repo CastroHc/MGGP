@@ -417,7 +417,7 @@ The `run` function have two arguments:
 - evaluate: function that returns the individual fitness to be minimized. It must posses one single argument that is the individual to be evaluated. The function must return a tuple (value,) -- with the comma after value.
 - seed: list of valid models (created by `element.createModel` function). If 'None' (default), no seed is included into the population.
 
-The `run` function return a _hall of fame_ object.
+The `run` function return a _hall of fame_ object and a logbook of evaluation statistics history.
 
 ### Simple Example
 Consider the system:
@@ -458,7 +458,7 @@ where u=WGN(0,1) with an output Gaussian noise with mean of zero and standard de
         # exception treatment for cases of Singular Matrix
         except np.linalg.LinAlgError:
             return np.inf,
-    hof = mggp.run(evaluate=evaluate,seed=None)
+    hof,log = mggp.run(evaluate=evaluate,seed=None)
     model = hof[0]
     
     for term in model:
