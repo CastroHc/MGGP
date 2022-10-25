@@ -463,5 +463,3 @@ where u=WGN(0,1) with an output Gaussian noise with mean of zero and standard de
     
     for term in model:
         print(str(term))
-
-

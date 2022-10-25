@@ -11,16 +11,11 @@ from scipy.linalg import inv
 import operator
 import random
 from sklearn.metrics import mean_squared_error
-from scipy.spatial.distance import euclidean
-from sklearn.neighbors import NearestNeighbors
 import re
 import warnings
 warnings.filterwarnings("ignore")
 from copy import deepcopy
-import math
 import pickle
-
-from copy import deepcopy
 
 class mggpElement(object):
     def __init__(self,weights=(-1.0,)):
@@ -562,8 +557,9 @@ class mggpEvolver(object):
                 fit = self._toolbox.evaluate(ind)
                 ind.fitness.values = fit
                 pop.append(ind)
-            fitnesses = self._toolbox.map(self._toolbox.evaluate, seed)
-            for ind, fit in zip(seed, fitnesses):
+            invalid_ind = [ind for ind in seed if not ind.fitness.valid]
+            fitnesses = self._toolbox.map(self._toolbox.evaluate, invalid_ind)
+            for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
             return pop + seed
 #------------------------------------------------------------------------------
@@ -642,6 +638,8 @@ class mggpEvolver(object):
     def _highCross(self,ind1,ind2):
         idx1 = random.randint(0,len(ind1)-1)
         idx2 = random.randint(0,len(ind2)-1)
+        if len(ind1) == self._maxTerms and len(ind1) == len(ind1):
+            idx2 = idx1
         aux = ind1[idx1:]
         del ind1[idx1:]
         ind1+=ind2[idx2:]
@@ -721,7 +719,7 @@ class mggpEvolver(object):
                                  self._toolbox.select(pop, self._popSize-hofSize)))
         #---Apply--crossover--and--mutation--on--the--offspring----------------
         #---CrossOver--------------------------------------------------------------
-            for i in range(0,len(offspring),2):
+            for i in range(0,len(offspring)-1,2):
                 if np.random.random() < self._CXPB:
                     if np.random.random() < 0.5:
                         offspring[i], offspring[i+1] = self._toolbox.highCross(offspring[i], 
@@ -740,12 +738,6 @@ class mggpEvolver(object):
                         func = random.choice(self._mutList)
                         offspring[i], = func(offspring[i])
                         self._delAttr(offspring[i])
-                        # if np.random.random() < 0.5:
-                        #     offspring[i], = self._toolbox.mutate(offspring[i])
-                        #     del offspring[i].fitness.values
-                        # else:
-                        #     offspring[i], = self._mutReplaceTree(offspring[i])
-                        #     del offspring[i].fitness.values
                                     
         #---Evaluate--the--individuals--with--an--invalid--fitness-------------
             invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
@@ -839,7 +831,9 @@ class mggpEvolver(object):
             for ind, fit in zip(invalid_ind, fitnesses):
                 ind.fitness.values = fit
         #---Apply--Elitism-----------------------------------------------------
-            pop = self._toolbox.selNSGA2(pop + offspring, self._popSize)
+            pop = self._toolbox.selNSGA2(pop + offspring, int(len(pop)*popPercent))
+            pop = self._initPop(self._popSize,self._maxTerms,pop)
+            pop = self._toolbox.selNSGA2(pop, len(pop))
             hof.update(pop)
         #---Record--Statistics-------------------------------------------------
             record = mstats.compile(pop)
